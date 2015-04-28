@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class WorldController : MonoBehaviour {
 
@@ -7,6 +8,11 @@ public class WorldController : MonoBehaviour {
 	public FireflySpawner myFireflySpawner;
 
 	public UnitedStates myUnitedStates;
+
+	//UI
+	public Text StateText;
+	public Text DateText;
+	public Text NumFirefliesText;
 
 
 	//SINGLETON
@@ -35,5 +41,9 @@ public class WorldController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	
+	}
+
+	public void SetState(string newStateText){
+		StateText.text = newStateText;
 	}
 }

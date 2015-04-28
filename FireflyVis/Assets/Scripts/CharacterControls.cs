@@ -4,12 +4,11 @@ using System.Collections;
 public class CharacterControls : MonoBehaviour {
 
 	//ROTATION
-	float absMaxAngle = 0.04f;
-	float rotIncrement = 0.015f;
+	float rotationSpeed = 1;
+	float moveSpeed = 1;
 	
-	float currentRotAngle = 0.0f;
-	
-	float stopEpsilon = 0.003f;
+	float turnIncrement = 1.0f; //in degrees
+	float moveIncrement = 1.0f;
 
 
 	//MOVEMENT
@@ -32,88 +31,63 @@ public class CharacterControls : MonoBehaviour {
 
 	void GetInput(){
 		//rotation
-		if(Input.GetKey(KeyCode.A)){
-			Debug.Log ("RotateLeft");
-			RotateLeft();
-		}
-		else if(Input.GetKey(KeyCode.D)){
-			Debug.Log ("RotateRight");
-			RotateRight();
-		}
-		else{
-			StopRotation();
+		float horizontalAxisInput = Input.GetAxis ("Horizontal");
+		
+		if ( horizontalAxisInput != 0)
+		{
+			Turn( turnIncrement*horizontalAxisInput*rotationSpeed );
 		}
 
-		//movement
-		if(Input.GetKeyDown(KeyCode.LeftArrow)){
+		//rotation up-down
+		/*float verticalAxisInput = Input.GetAxis ("Vertical");
+		
+		if ( verticalAxisInput != 0)
+		{
+			TurnUpDown( turnIncrement*verticalAxisInput*RotationSpeed );
+		}*/
+
+
+		//regular movement
+
+		float verticalAxisInput = Input.GetAxis ("Vertical");
+		
+		if ( verticalAxisInput != 0 ) 
+		{
+			//GetComponent<Rigidbody>().velocity = transform.forward*verticalAxisInput*MoveSpeed;
+			Move ( moveIncrement*verticalAxisInput*moveSpeed );
+		}
+		else{
+			GetComponent<Rigidbody>().velocity = Vector3.zero;
+		}
+
+		//stepping movement
+		/*if(Input.GetKeyDown(KeyCode.J)){
 			if( (hasStepped == false || steppedLeftLast == false) && isStepping == false){
 				isStepping = true;
 				hasStepped = true;
 				StartCoroutine(StepLeft ());
 			}
 		}
-		else if(Input.GetKey(KeyCode.RightArrow)){
+		else if(Input.GetKey(KeyCode.L)){
 			if( (hasStepped == false || steppedLeftLast == true) && isStepping == false){
 				isStepping = true;
 				hasStepped = true;
 				StartCoroutine(StepRight());
 			}
-		}
-		else{
-			StopRotation();
-		}
+		}*/
 	}
 
-	void RotateLeft(){
-		if(currentRotAngle > 0){
-			currentRotAngle = 0;
-		}
-
-		if(currentRotAngle > -absMaxAngle){
-			currentRotAngle -= rotIncrement*Time.deltaTime;
-		}
-			
-		if(currentRotAngle < -absMaxAngle){
-			currentRotAngle = -absMaxAngle;
-		}
-			
-		Rotate ();
+	void Move( float amount ){
+		transform.position += transform.forward * amount;
 	}
 
-	void RotateRight(){
-		if(currentRotAngle < 0){
-			currentRotAngle = 0;
-		}
-		
-		if(currentRotAngle < absMaxAngle){
-			currentRotAngle += rotIncrement*Time.deltaTime;
-		}
-		
-		if(currentRotAngle > absMaxAngle){
-			currentRotAngle = absMaxAngle;
-		}
-		
-		Rotate ();
+	void Turn( float amount ){
+		transform.RotateAround (transform.position, Vector3.up, amount );
 	}
 
-	void Rotate(){
-		transform.RotateAround(transform.position, Vector3.up, currentRotAngle);
-	}
-
-	void StopRotation(){
-		if(currentRotAngle < 0){
-			currentRotAngle += 2f*rotIncrement*Time.deltaTime;
-		}
-		else if(currentRotAngle > 0){
-			currentRotAngle -= 2f*rotIncrement*Time.deltaTime;
-		}
-		
-		if(currentRotAngle > (0.0f - stopEpsilon) && currentRotAngle < (0.0f + stopEpsilon)){
-			currentRotAngle = 0;
-		}
-		
-		Rotate();
-	}
+	/*void TurnUpDown( float amount ){
+		transform.RotateAround (transform.position, Vector3.right, amount );
+	}*/
 
 
 	IEnumerator StepRight(){
@@ -145,6 +119,15 @@ public class CharacterControls : MonoBehaviour {
 		transform.position = stepPosition;
 		isStepping = false;
 		yield return 0;
+	}
+
+
+	void OnCollisionEnter(Collision collision){
+		if(collision.gameObject.tag == "State"){
+			WorldController.Instance.SetState(collision.gameObject.name);
+
+			//TODO: set other info!!
+		}
 	}
 
 }
