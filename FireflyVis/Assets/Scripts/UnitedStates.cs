@@ -42,7 +42,6 @@ public class UnitedStates : MonoBehaviour {
 
 
 	//ALL THE STATES...
-
 	public UnitedState Alabama;
 	public UnitedState Alaska;
 	public UnitedState Arizona; 

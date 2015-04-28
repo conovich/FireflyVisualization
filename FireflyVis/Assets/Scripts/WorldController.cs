@@ -6,6 +6,7 @@ public class WorldController : MonoBehaviour {
 
 	public CharacterControls myCharacter;
 	public FireflySpawner myFireflySpawner;
+	public DateTimeController myDateTime;
 
 	public UnitedStates myUnitedStates;
 
@@ -13,6 +14,8 @@ public class WorldController : MonoBehaviour {
 	public Text StateText;
 	public Text DateText;
 	public Text NumFirefliesText;
+
+	public int CurrentNumFireflies;
 
 
 	//SINGLETON

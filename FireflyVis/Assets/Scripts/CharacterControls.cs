@@ -4,8 +4,8 @@ using System.Collections;
 public class CharacterControls : MonoBehaviour {
 
 	//ROTATION
-	float rotationSpeed = 1;
-	float moveSpeed = 1;
+	public float rotationSpeed = 1.0f;
+	public float moveSpeed = 1.0f;
 	
 	float turnIncrement = 1.0f; //in degrees
 	float moveIncrement = 1.0f;
@@ -17,6 +17,9 @@ public class CharacterControls : MonoBehaviour {
 	bool isStepping = false;
 	float stepSize = 2.0f;
 	float stepSpeed = 10f;
+
+	public bool isMovingForward;
+	public bool isMovingBackward;
 
 
 	// Use this for initialization
@@ -55,9 +58,17 @@ public class CharacterControls : MonoBehaviour {
 		{
 			//GetComponent<Rigidbody>().velocity = transform.forward*verticalAxisInput*MoveSpeed;
 			Move ( moveIncrement*verticalAxisInput*moveSpeed );
+			if(verticalAxisInput > 0){
+				isMovingForward = true;
+			}
+			else{
+				isMovingBackward = true;
+			}
 		}
 		else{
 			GetComponent<Rigidbody>().velocity = Vector3.zero;
+			isMovingForward = false;
+			isMovingBackward = false;
 		}
 
 		//stepping movement
