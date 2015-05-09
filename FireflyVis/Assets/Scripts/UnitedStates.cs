@@ -4,43 +4,6 @@ using System.Collections;
 public class UnitedStates : MonoBehaviour {
 
 
-	public class MonthData{
-
-	}
-
-	public class UnitedState{
-
-		public MonthData January;
-		public MonthData February;
-		public MonthData March;
-		public MonthData April;
-		public MonthData May;
-		public MonthData June;
-		public MonthData July;
-		public MonthData August;
-		public MonthData September;
-		public MonthData October;
-		public MonthData November;
-		public MonthData December;
-
-		public string Name;
-
-		public UnitedState(string name){
-			Name = name;
-		}
-
-		public void SetMonthData(MonthData month){
-
-		}
-
-
-
-
-	}
-
-
-
-
 	//ALL THE STATES...
 	public UnitedState Alabama;
 	public UnitedState Alaska;

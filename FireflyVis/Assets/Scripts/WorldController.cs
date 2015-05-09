@@ -46,7 +46,12 @@ public class WorldController : MonoBehaviour {
 	
 	}
 
-	public void SetState(string newStateText){
-		StateText.text = newStateText;
+	public void SetState(UnitedState state){
+		StateText.text = state.name;
+	}
+
+	public void SetDateTimeText(string month, int day, int year){
+		DateText.text = month + " " + (day.ToString()) + ", " + (year.ToString());
+
 	}
 }

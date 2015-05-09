@@ -3,6 +3,9 @@ using System.Collections;
 
 public class CharacterControls : MonoBehaviour {
 
+	//State
+	UnitedState currentState;
+
 	//ROTATION
 	public float rotationSpeed = 1.0f;
 	public float moveSpeed = 1.0f;
@@ -135,9 +138,7 @@ public class CharacterControls : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision){
 		if(collision.gameObject.tag == "State"){
-			WorldController.Instance.SetState(collision.gameObject.name);
-
-			//TODO: set other info!!
+			WorldController.Instance.SetState(collision.gameObject.GetComponent<UnitedState>());
 		}
 	}
 
