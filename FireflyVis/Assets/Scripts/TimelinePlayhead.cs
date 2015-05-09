@@ -28,7 +28,6 @@ public class TimelinePlayhead : MonoBehaviour {
 		float distanceStartToEnd = Mathf.Abs(EndPosTransform.position.x - StartPosTransform.position.x);
 
 		float newXPosFromStart = ( (world.myDateTime.dayNumber) / 365.0f ) * distanceStartToEnd; //doesn't work perfectly for leap years -- gonna let that slide for now
-		Debug.Log(world.myDateTime.dayNumber);
 		transform.position = new Vector3(StartPosTransform.position.x + newXPosFromStart, transform.position.y, transform.position.z);
 	}
 }
