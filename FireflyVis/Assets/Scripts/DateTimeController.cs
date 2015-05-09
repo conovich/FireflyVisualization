@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class DateTimeController : MonoBehaviour {
+	public bool isPlaying = true;
+	public float dayNumber = 1; //for use in the timeline playhead
 
 	float TimeSpeed = 10;
 
@@ -49,22 +51,27 @@ public class DateTimeController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		PassTime ();
-		UpdateDateTimeText();
+		if(isPlaying){
+			PassTime ();
+			UpdateDateTimeText();
+		}
 	}
 
 	void PassTime(){
 		currentDay += Time.deltaTime*TimeSpeed;
-				if(currentDay > currentMonthMaxDay){
-					currentDay = 1;
-					SwitchToNextMonth();
-					if(currentMonth == 1){
-						currentYear++;
-						if(currentYear > maxYear){
-							currentYear = 2008;
-						}
-					}
+		dayNumber += Time.deltaTime*TimeSpeed;
+
+		if(currentDay > currentMonthMaxDay){ //increment the month!
+			currentDay = 1;
+			SwitchToNextMonth();
+			if(currentMonth == 1){ //increment the year!
+				currentYear++;
+				dayNumber = 1.0f;
+				if(currentYear > maxYear){
+					currentYear = 2008;
 				}
+			}
+		}
 	}
 
 	void SwitchToNextMonth(){
