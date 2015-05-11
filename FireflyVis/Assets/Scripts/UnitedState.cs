@@ -3,6 +3,8 @@ using System.Collections;
 
 public class UnitedState : MonoBehaviour {
 
+	public RectTransform stateDot;
+
 	string stateName;
 	public const int NumEntriesIndex = 0;
 	public const int TemperatureIndex = 1;

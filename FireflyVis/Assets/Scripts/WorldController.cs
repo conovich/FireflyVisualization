@@ -60,18 +60,13 @@ public class WorldController : MonoBehaviour {
 
 	//CALL THIS WHEN a) WHEN CHARACTER ENTERS A NEW STATE, & b) WHEN THE DAY/WEEK CHANGES c) WHEN THE WEATHER CHANGES
 	public void SetNumFireflies(UnitedState state){
+		myTimelineVis.SetDotSizes();
+
 		int monthIndex = myDateTime.currentMonth - 1;
 		int weekIndex = myDateTime.GetWeekIndex((short)myDateTime.currentDay);
-		int cloudyIndex = 0;
-		if(myWeather.isCloudy){
-			cloudyIndex = 1;
-		}
-		else if(myWeather.isRaining){
-			cloudyIndex = 2;
-		}
-		if(monthIndex == 5){
-			Debug.Log("EEP!");
-		}
+
+		int cloudyIndex = getCloudyIndex();
+
 		int numFireflies = state.GetAvgNumFireflies(myDateTime.currentYear, monthIndex, weekIndex, cloudyIndex);
 
 		//set current number of fireflies!
@@ -81,6 +76,18 @@ public class WorldController : MonoBehaviour {
 
 	public void SetFireflyNumText(){
 		NumFirefliesText.text = CurrentNumFireflies.ToString() + " Fireflies";
+	}
+
+	public int getCloudyIndex(){
+		int cloudyIndex = 0;
+		if(myWeather.isCloudy){
+			cloudyIndex = 1;
+		}
+		else if(myWeather.isRaining){
+			cloudyIndex = 2;
+		}
+
+		return cloudyIndex;
 	}
 
 }
