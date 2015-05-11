@@ -7,8 +7,10 @@ public class WorldController : MonoBehaviour {
 	public CharacterControls myCharacter;
 	public FireflySpawner myFireflySpawner;
 	public DateTimeController myDateTime;
+	public WeatherController myWeather;
+	public TimelineVisController myTimelineVis;
 
-	public UnitedStates myUnitedStates;
+	public UnitedStatesParser myUnitedStates;
 
 	//UI
 	public Text StateText;
@@ -38,7 +40,7 @@ public class WorldController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		myUnitedStates.Parse();
 	}
 	
 	// Update is called once per frame
@@ -48,10 +50,37 @@ public class WorldController : MonoBehaviour {
 
 	public void SetState(UnitedState state){
 		StateText.text = state.name;
+		SetNumFireflies(state);
 	}
 
 	public void SetDateTimeText(string month, int day, int year){
 		DateText.text = month + " " + (day.ToString()) + ", " + (year.ToString());
 
 	}
+
+	//CALL THIS WHEN a) WHEN CHARACTER ENTERS A NEW STATE, & b) WHEN THE DAY/WEEK CHANGES c) WHEN THE WEATHER CHANGES
+	public void SetNumFireflies(UnitedState state){
+		int monthIndex = myDateTime.currentMonth - 1;
+		int weekIndex = myDateTime.GetWeekIndex((short)myDateTime.currentDay);
+		int cloudyIndex = 0;
+		if(myWeather.isCloudy){
+			cloudyIndex = 1;
+		}
+		else if(myWeather.isRaining){
+			cloudyIndex = 2;
+		}
+		if(monthIndex == 5){
+			Debug.Log("EEP!");
+		}
+		int numFireflies = state.GetAvgNumFireflies(myDateTime.currentYear, monthIndex, weekIndex, cloudyIndex);
+
+		//set current number of fireflies!
+		CurrentNumFireflies = numFireflies;
+		SetFireflyNumText();
+	}
+
+	public void SetFireflyNumText(){
+		NumFirefliesText.text = CurrentNumFireflies.ToString() + " Fireflies";
+	}
+
 }

@@ -4,11 +4,17 @@ using UnityEngine.UI;
 
 public class WeatherController : MonoBehaviour {
 
+	WorldController world { get { return WorldController.Instance; } }
+
 	public ParticleSystem Rain;
 	public ParticleSystem Clouds;
 
 	public Toggle RainToggle;
 	public Toggle CloudToggle;
+
+	public bool isRaining { get { return RainToggle.isOn; } }
+	public bool isCloudy { get { return CloudToggle.isOn; } }
+
 
 
 	// Use this for initialization
@@ -35,6 +41,8 @@ public class WeatherController : MonoBehaviour {
 			}
 		}
 
+		world.SetNumFireflies(world.myCharacter.currentState);
+
 	}
 
 	public void ToggleClouds(){
@@ -46,5 +54,7 @@ public class WeatherController : MonoBehaviour {
 		else{
 			Clouds.Stop();
 		}
+
+		world.SetNumFireflies(world.myCharacter.currentState);
 	}
 }

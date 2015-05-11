@@ -2,16 +2,20 @@
 using System.Collections;
 
 public class DateTimeController : MonoBehaviour {
+	WorldController world { get { return WorldController.Instance; } }
+
 	public bool isPlaying = true;
 	public float dayNumber = 1; //for use in the timeline playhead
 
-	float TimeSpeed = 10;
 
-	int currentYear = 2008;
+	float TimeSpeedSummer = 4;
+	float TimeSpeedWinter = 20;
+
+	public int currentYear = 2008;
 	int maxYear = 2013;
 
 	string monthName = "January"; //start with january by default
-	int currentMonth = 1;
+	public int currentMonth = 1;
 
 	int maxDayJan = 31;
 	int maxDayFeb08 = 29;
@@ -32,10 +36,17 @@ public class DateTimeController : MonoBehaviour {
 	int maxDayDec = 31;
 	int currentMonthMaxDay;
 
+	public int currentWeekIndex = 0;
+	public float currentDay = 1;
 
-	float currentDay = 1;
 
+	/*
+	//avg sunrise times - lincoln, nebraska.
+	int[] sunriseTimes = {7,7,7,6,6,5,6,6,7,7,7,7};
 
+	//avg sunset times - lincoln, nebraska
+	int[] sunsetTimes = {5,6,7,8,8,9,9,8,7,6,5,5};
+	*/
 
 	// Use this for initialization
 	void Start () {
@@ -58,11 +69,23 @@ public class DateTimeController : MonoBehaviour {
 	}
 
 	void PassTime(){
-		currentDay += Time.deltaTime*TimeSpeed;
-		dayNumber += Time.deltaTime*TimeSpeed;
+		float timeSpeed = TimeSpeedWinter;
+		if(currentMonth == 5 || currentMonth == 6 || currentMonth == 7 || currentMonth == 8){
+			timeSpeed = TimeSpeedSummer;
+		}
+
+		currentDay += Time.deltaTime*timeSpeed;
+		dayNumber += Time.deltaTime*timeSpeed;
+
+		int oldWeekIndex = currentWeekIndex;
+		currentWeekIndex = GetWeekIndex((short)currentDay);
+		if(currentWeekIndex != oldWeekIndex){
+			world.SetNumFireflies(world.myCharacter.currentState);
+		}
 
 		if(currentDay > currentMonthMaxDay){ //increment the month!
 			currentDay = 1;
+			world.SetNumFireflies(world.myCharacter.currentState);
 			SwitchToNextMonth();
 			if(currentMonth == 1){ //increment the year!
 				currentYear++;
@@ -147,7 +170,22 @@ public class DateTimeController : MonoBehaviour {
 	}
 
 	void UpdateDateTimeText(){
-
 		WorldController.Instance.SetDateTimeText(monthName, (int)currentDay, currentYear); 
+	}
+
+	public int GetWeekIndex(int day){
+		if(day <= 7){
+			return 0;
+		}
+		else if(day <= 14){
+			return 1;
+		}
+		else if(day <= 21){
+			return 2;
+		}
+		else{//if(day > 14){
+			return 3;
+		}
+		
 	}
 }

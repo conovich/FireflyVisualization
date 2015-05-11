@@ -2,9 +2,10 @@
 using System.Collections;
 
 public class CharacterControls : MonoBehaviour {
+	WorldController world { get { return WorldController.Instance; } }
 
 	//State
-	UnitedState currentState;
+	public UnitedState currentState;
 
 	//ROTATION
 	public float rotationSpeed = 1.0f;
@@ -27,7 +28,7 @@ public class CharacterControls : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		currentState = world.myUnitedStates.GetState("MA"); //DEFAULTING TO TEXAS.
 	}
 	
 	// Update is called once per frame
@@ -138,7 +139,9 @@ public class CharacterControls : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision){
 		if(collision.gameObject.tag == "State"){
-			WorldController.Instance.SetState(collision.gameObject.GetComponent<UnitedState>());
+			UnitedState enteringState = collision.gameObject.GetComponent<UnitedState>();
+			world.SetState(enteringState);
+			currentState = enteringState;
 		}
 	}
 

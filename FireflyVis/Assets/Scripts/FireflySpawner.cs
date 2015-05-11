@@ -33,10 +33,10 @@ public class FireflySpawner: MonoBehaviour {
 		}
 
 		if(world.myCharacter.isMovingForward){
-			randomPos += world.myCharacter.transform.forward * MovementOffset;
+			randomPos += world.myCharacter.GetComponentInChildren<Camera>().transform.forward * MovementOffset;
 		}
 		else if(world.myCharacter.isMovingBackward){
-			randomPos -= world.myCharacter.transform.forward * MovementOffset;
+			randomPos -= world.myCharacter.GetComponentInChildren<Camera>().transform.forward * MovementOffset;
 		}
 		
 		//spawn this distance from the character...
