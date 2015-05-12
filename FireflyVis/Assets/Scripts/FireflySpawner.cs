@@ -7,7 +7,8 @@ public class FireflySpawner: MonoBehaviour {
 
 	WorldController world { get { return WorldController.Instance; } }
 
-
+	public float maxHeight;
+	public float minHeight;
 	public float SpawnRadius;
 	public float MovementOffset;
 	public GameObject fireflyObj;
@@ -28,15 +29,22 @@ public class FireflySpawner: MonoBehaviour {
 
 	void SpawnFirefly(){
 		Vector3 randomPos = Random.insideUnitSphere * SpawnRadius;
-		if (randomPos.y < 0){
-			randomPos = new Vector3(randomPos.x, -randomPos.y, randomPos.z);
-		}
+		//if (randomPos.y < 0){
+		//	randomPos = new Vector3(randomPos.x, -randomPos.y, randomPos.z);
+		//}
 
 		if(world.myCharacter.isMovingForward){
 			randomPos += world.myCharacter.GetComponentInChildren<Camera>().transform.forward * MovementOffset;
 		}
 		else if(world.myCharacter.isMovingBackward){
 			randomPos -= world.myCharacter.GetComponentInChildren<Camera>().transform.forward * MovementOffset;
+		}
+
+		if(randomPos.y > maxHeight){
+			randomPos = new Vector3(randomPos.x, maxHeight, randomPos.z);
+		}
+		else if(randomPos.y < minHeight){
+			randomPos = new Vector3(randomPos.x, minHeight, randomPos.z);
 		}
 		
 		//spawn this distance from the character...
