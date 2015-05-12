@@ -63,11 +63,16 @@ public class WorldController : MonoBehaviour {
 		myTimelineVis.SetDotSizes();
 
 		int monthIndex = myDateTime.currentMonth - 1;
-		int weekIndex = myDateTime.GetWeekIndex((short)myDateTime.currentDay);
+		int weekIndex = myDateTime.GetWeekIndex((int)myDateTime.currentDay);
 
 		int cloudyIndex = getCloudyIndex();
 
 		int numFireflies = state.GetAvgNumFireflies(myDateTime.currentYear, monthIndex, weekIndex, cloudyIndex);
+
+		for(int i = 0; i < myUnitedStates.myStates.Length; i++){
+			UnitedState currState = myUnitedStates.myStates[i];
+			currState.ChangeDotScale();
+		}
 
 		//set current number of fireflies!
 		CurrentNumFireflies = numFireflies;

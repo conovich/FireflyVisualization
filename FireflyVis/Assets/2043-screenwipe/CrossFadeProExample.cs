@@ -5,6 +5,10 @@ public class CrossFadeProExample : MonoBehaviour
 {
 	public Camera camera1;
 	public Camera camera2;
+
+	public Camera miniMap1;
+	public Camera miniMap2;
+
 	public float fadeTime = 2.0f;
 	bool inProgress = false;
 	bool swap = false;
@@ -16,11 +20,17 @@ public class CrossFadeProExample : MonoBehaviour
 	
 	void Update()
 	{
-		/*if (Input.GetKeyDown("space")) 
+		if (Input.GetKeyDown("space")) 
 		{
 			// Debug.Log("Space down!");
 			StartCoroutine( DoFade() );
-		}*/
+
+			//swap miniMap cameras
+			float tempDepth = miniMap1.depth;
+			miniMap1.depth = miniMap2.depth;
+			miniMap2.depth = tempDepth;
+
+		}
 	}
 
 	public void StartFade(){

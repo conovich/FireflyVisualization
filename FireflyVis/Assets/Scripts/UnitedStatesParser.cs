@@ -13,6 +13,7 @@ public class UnitedStatesParser : MonoBehaviour {
 	
 	public TextAsset myRawCSVFile;
 
+	public UnitedState[] myStates;
 
 	//ALL THE STATES...
 	public UnitedState Alabama;
@@ -86,11 +87,17 @@ public class UnitedStatesParser : MonoBehaviour {
 		else{
 			Debug.Log("Instance already exists!");
 		}
+
+		InitStateArray();
+	}
+
+	void InitStateArray(){
+		myStates = GameObject.FindObjectsOfType<UnitedState>();
 	}
 
 	// Use this for initialization
 	void Start () {
-	
+		
 	}
 
 	public void Parse(){

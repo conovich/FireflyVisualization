@@ -188,4 +188,9 @@ public class DateTimeController : MonoBehaviour {
 		}
 		
 	}
+
+	public int GetCurrentWeekIndex(){
+		return GetWeekIndex((int)currentDay);
+		
+	}
 }

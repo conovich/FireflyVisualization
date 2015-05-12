@@ -2,8 +2,9 @@
 using System.Collections;
 
 public class UnitedState : MonoBehaviour {
+	WorldController world { get { return WorldController.Instance; } }
 
-	public RectTransform stateDot;
+	public UniformScaleController stateDot;
 
 	string stateName;
 	public const int NumEntriesIndex = 0;
@@ -118,6 +119,16 @@ public class UnitedState : MonoBehaviour {
 		areArraysInitialized = true;
 	}
 
+	//CALL THIS WHEN THE MONTH CHANGES AND WHEN THE CHARACTER ENTERS A NEW STATE
+	public void ChangeDotScale(){
+		int numFireflies = GetAvgNumFirefliesCurrent();
+		if(stateDot == null){
+			Debug.Log("No state dot: " + gameObject.name);
+			stateDot = GetComponentInChildren<UniformScaleController>();
+		}
+		stateDot.SetScaleBasedOnFireflies(numFireflies);
+	}
+
 	public void AddToCategoryInfo(int year, int monthIndex, int weekIndex, int cloudRainIndex, int categoryIndex, int info){
 		if(!areArraysInitialized){
 			InitializeArrays();
@@ -199,6 +210,14 @@ public class UnitedState : MonoBehaviour {
 		float average = ((float)numFirefliesWeek0) + ((float)numFirefliesWeek1) + ((float)numFirefliesWeek2) + ((float)numFirefliesWeek3);
 		average = average / 4.0f;
 		return (int)average;
+	}
+
+	public int GetAvgNumFirefliesMONTHCurrent(){
+		return GetAvgNumFirefliesMONTH(world.myDateTime.currentYear, world.myDateTime.currentMonth - 1, world.getCloudyIndex());
+	}
+
+	public int GetAvgNumFirefliesCurrent(){
+		return GetAvgNumFireflies(world.myDateTime.currentYear, world.myDateTime.currentMonth - 1, world.myDateTime.GetCurrentWeekIndex(), world.getCloudyIndex());
 	}
 
 	public int GetAvgTemp(int year, int monthIndex, int weekIndex, int cloudRainIndex){ //monthIndex and weekIndex should be one less
