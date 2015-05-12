@@ -19,9 +19,7 @@ public class TimelinePlayhead : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(WorldController.Instance.myDateTime.isPlaying){
-			Move();
-		}
+		Move();
 	}
 
 	void Move(){

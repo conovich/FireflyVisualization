@@ -207,11 +207,16 @@ public class DateTimeController : MonoBehaviour {
 		
 	}
 
+	public void RestartCurrentYear(){
+		currentMonth = 1;
+		currentDay = 0;
+		dayNumber = 0;
+		UpdateDateTimeText();
+		world.SetNumFireflies(world.myCharacter.currentState);
+	}
+
 	public void SetYear(int year){
 		if(year <= 2013 && year >= 2008){
-			currentMonth = 1;
-			currentDay = 0;
-			dayNumber = 0;
 			currentYear = year;
 		}
 		UpdateDateTimeText();
