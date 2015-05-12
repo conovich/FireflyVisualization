@@ -206,4 +206,15 @@ public class DateTimeController : MonoBehaviour {
 		return GetWeekIndex((int)currentDay);
 		
 	}
+
+	public void SetYear(int year){
+		if(year <= 2013 && year >= 2008){
+			currentMonth = 1;
+			currentDay = 0;
+			dayNumber = 0;
+			currentYear = year;
+		}
+		UpdateDateTimeText();
+		world.SetNumFireflies(world.myCharacter.currentState);
+	}
 }
