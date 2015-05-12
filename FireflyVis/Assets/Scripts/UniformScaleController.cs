@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class UniformScaleController : MonoBehaviour {
+	public bool UIPingPongScale = false;
+
 	public float scaleIncrement;
 	public float speed;
 
@@ -12,13 +14,42 @@ public class UniformScaleController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		if(UIPingPongScale){
+			StartCoroutine(UIPingPong(dotMaxScale));
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
 	}
+
+	IEnumerator UIPingPong(float scale){ //JUST FOR UI.
+
+		isLerping = true;
+
+		RectTransform rectTransform = GetComponent<RectTransform>();
+
+		float epsilon = 0.008f; //BE CAREFUL WITH THIS VALUE OR IT WILL PINGPONG TOO FAST AND YOU'LL GET A STACK OVERFLOW.
+		Vector3 scaleVec = new Vector3(scale, scale, scale);
+		while( Mathf.Abs(rectTransform.localScale.x - scale) > epsilon){
+			rectTransform.localScale = Vector3.Lerp(rectTransform.localScale, scaleVec, Time.deltaTime*speed);
+			yield return 0;
+		}
+		
+		
+		rectTransform.localScale = new Vector3(scale, scale, scale);
+		
+		isLerping = false;
+
+		if(scale == dotMinScale){
+			StartCoroutine(UIPingPong(dotMaxScale));
+		}
+		else{
+			StartCoroutine(UIPingPong(dotMinScale));
+		}
+	}
+
 
 	float CalculateDotScale(int numFireflies){
 		int maxNumFireflies = 50;
@@ -64,21 +95,6 @@ public class UniformScaleController : MonoBehaviour {
 			yield return 0;
 		}
 
-		/*float incrementMult = 1.0f;
-		float scaleDiff = rectTransform.localScale.x - scale;
-		if(scaleDiff < 1){
-			incrementMult = -1.0f;
-		}
-		else{
-			Debug.Log("ahhhhh");
-		}
-
-		if(incrementMult == -1.0f){
-			while( Mathf.Abs(rectTransform.localScale.x - scale) > epsilon){
-				rectTransform.localScale = rectTransform.localScale + (incrementMult*scaleIncrement*Vector3.one);
-				yield return 0;
-			}
-		}*/
 
 		rectTransform.localScale = new Vector3(scale, scale, scale);
 
@@ -97,16 +113,6 @@ public class UniformScaleController : MonoBehaviour {
 			yield return 0;
 		}
 
-		/*float incrementMult = 1.0f;
-		float scaleDiff = transform.localScale.x - scale;
-		if(scaleDiff < 1){
-			incrementMult = -1.0f;
-		}
-
-		while( Mathf.Abs(transform.localScale.x - scale) > epsilon ){
-			transform.localScale = transform.localScale + (incrementMult*scaleIncrement*Vector3.one);
-			yield return 0;
-		}*/
 
 		transform.localScale = new Vector3(scale, scale, scale);
 		isLerping = false;

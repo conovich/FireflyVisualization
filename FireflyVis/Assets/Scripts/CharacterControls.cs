@@ -29,6 +29,7 @@ public class CharacterControls : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		currentState = world.myUnitedStates.GetState("MA"); //DEFAULTING TO TEXAS.
+		world.SetState(currentState);
 	}
 	
 	// Update is called once per frame

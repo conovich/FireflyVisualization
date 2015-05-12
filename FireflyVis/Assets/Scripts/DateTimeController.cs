@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class DateTimeController : MonoBehaviour {
 	WorldController world { get { return WorldController.Instance; } }
 
-	public bool isPlaying = true;
+	public bool isPlaying = false;
 	public float dayNumber = 1; //for use in the timeline playhead
 
 
@@ -39,6 +40,8 @@ public class DateTimeController : MonoBehaviour {
 	public int currentWeekIndex = 0;
 	public float currentDay = 1;
 
+	public Text pauseText;
+
 
 	/*
 	//avg sunrise times - lincoln, nebraska.
@@ -62,7 +65,17 @@ public class DateTimeController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(isPlaying){
+		if(Input.GetKeyDown(KeyCode.P)){
+			isPlaying = !isPlaying;
+			if(isPlaying){
+				pauseText.text = "[press 'p' to pause]";
+			}
+			else{
+				pauseText.text = "[press 'p' to unpause]";
+			}
+		}
+
+		if(isPlaying && world.myIntroController.currentIntroState == IntroController.IntroState.finished){
 			PassTime ();
 			UpdateDateTimeText();
 		}

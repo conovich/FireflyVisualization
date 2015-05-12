@@ -9,6 +9,7 @@ public class WorldController : MonoBehaviour {
 	public DateTimeController myDateTime;
 	public WeatherController myWeather;
 	public TimelineVisController myTimelineVis;
+	public IntroController myIntroController;
 
 	public UnitedStatesParser myUnitedStates;
 
@@ -45,7 +46,9 @@ public class WorldController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		if(Input.GetKeyDown(KeyCode.Q)){
+			Application.Quit();
+		}
 	}
 
 	public void SetState(UnitedState state){
